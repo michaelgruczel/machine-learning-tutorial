@@ -299,7 +299,7 @@ The core element behing a neural network is a perceptron.
 A perceptron takes several binary inputs, x1,x2,… and produces a single binary output:
 
 
-![perceptron](raw.githubusercontent.com/michaelgruczel/machine-learning-tutorial/master/images/perceptron.png "perceptron")
+![perceptron](https://raw.githubusercontent.com/michaelgruczel/machine-learning-tutorial/master/images/perceptron.png "perceptron")
 
 The inputs have different importance/impact, means they can be formalized as weights
 
