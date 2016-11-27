@@ -1,0 +1,38 @@
+@RELATION titanic_survivers
+
+@ATTRIBUTE gender					{male, female}
+@ATTRIBUTE ageOverNineAndHalf		{yes, no}
+@ATTRIBUTE issibspOverTwoAndHalf  	{yes, no}
+@ATTRIBUTE Result 					{Survived, Died}
+
+@DATA
+male,yes,yes,Died
+male,yes,no,Died
+male,no,yes,Survived
+male,no,yes,Died
+male,no,yes,Died
+male,no,no,Survived
+female,yes,yes,Survived
+female,no,yes,Survived
+female,yes,no,Survived
+female,no,no,Survived
+female,yes,yes,Survived
+female,no,yes,Survived
+female,yes,no,Survived
+female,no,no,Survived
+female,yes,yes,Survived
+female,no,yes,Survived
+female,yes,no,Survived
+female,no,no,Survived
+female,yes,yes,Survived
+female,no,yes,Survived
+female,yes,no,Survived
+female,no,no,Survived
+female,yes,yes,Survived
+female,no,yes,Survived
+female,yes,no,Survived
+female,no,no,Survived
+female,yes,yes,Survived
+female,no,yes,Survived
+female,yes,no,Survived
+female,no,no,Survived

@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    
+    compile 'org.slf4j:slf4j-api:1.7.12'
+    
+    /** Spark examples **/
+    compile 'org.apache.spark:spark-core_2.11:2.0.2'
+    
+    /** weka examples **/
+    compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.6'
+
+    /** mahout **/
+    compile 'org.apache.mahout:mahout-core:0.7'
+    compile 'org.apache.mahout:mahout-math:0.7'
+
+    testCompile 'junit:junit:4.12'
+}
