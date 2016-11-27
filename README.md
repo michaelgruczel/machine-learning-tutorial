@@ -38,8 +38,16 @@ I will give an example for a local single node installation on mac (with homebre
 
     brew install hadoop
 
-There are 2 ways to use hadoop locally, you can run a single node cluster locally or you can just execute the libs directly.
-In case you want to do it the first way, you have to do this:
+There are 2 ways to use hadoop locally:
+
+* you can run a single node cluster locally
+* you can just use the libs directly.
+
+If you want to use the second option, then skip the next lines and continue at "simple usage".
+The first option is far more complicated, but offers more support in terms of
+using the api and so on. In case you want to do it the hard way, you have to do this:
+    
+ensure ssh login locally works:
     
     // enable ssh login to localhost
     ssh localhost
@@ -49,8 +57,11 @@ In case you want to do it the first way, you have to do this:
     ssh-keygen -t rsa
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     
+configure it:
+    
     /usr/local/Cellar/hadoop/2.7.2/bin/hdfs namenode -format
-    vi /usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/core-site.xml
+    
+/usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/core-site.xml:
 
     <configuration>  
       <property>
@@ -64,7 +75,7 @@ In case you want to do it the first way, you have to do this:
       </property>
     </configuration>    
 
-    vi /usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/mapred-site.xml
+/usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/mapred-site.xml:
 
     <configuration>
       <property>
@@ -73,7 +84,8 @@ In case you want to do it the first way, you have to do this:
       </property>
     </configuration>
 
-    vi /usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/hdfs-site.xml
+
+/usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/hdfs-site.xml:
 
     <configuration>
       <property>
@@ -82,18 +94,25 @@ In case you want to do it the first way, you have to do this:
       </property>
     </configuration>
 
+folder rights to upload files into hdfs
+
     hdfs dfs -mkdir /user
     hdfs dfs -mkdir /user/<username>
+  
+start
   
     /usr/local/Cellar/hadoop/2.7.2/sbin/start-dfs.sh
     
 check http://localhost:50070/ to see it running   
-in order to stop it use:
+
+in order to stop it later use:
 
     /usr/local/Cellar/hadoop/2.7.2/sbin/stop-dfs.sh    
 
 for a more advanced config see for example https://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/
 or https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html
+
+simple usage:
 
 the HDFS is then an own filesystem on your local system. 
 In order to see the files whoch are stored in the filesystem execute:
@@ -102,8 +121,11 @@ In order to see the files whoch are stored in the filesystem execute:
     
 Let's store a file into the HDFS
 
-    // in case you donot run a single node cluster
+    // in case you run a single node cluster
     hdfs dfs -put data/HadoopLoremIpsumExample HadoopLoremIpsumExampleInHDFS
+    
+or    
+    
     // if you only use the libs
     hadoop fs -put file ./data/HadoopLoremIpsumExample HadoopLoremIpsumExampleInHDFS   
     
@@ -195,31 +217,31 @@ We have to make the definition of it public for spring xd
 
 springxdexampleprocessor.xml:
 
-<?xml version="1.0" encoding="UTF-8"?>
+    <?xml version="1.0" encoding="UTF-8"?>
+    
+    <beans:beans xmlns="http://www.springframework.org/schema/integration"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:beans="http://www.springframework.org/schema/beans"
+      xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/integration
+        http://www.springframework.org/schema/integration/spring-integration.xsd">
+      <channel id="input"/>
+    
+      <transformer input-channel="input" output-channel="output">
+        <beans:bean class="SpringXDExampleProcessor" />
+      </transformer>
+    
+      <channel id="output"/>
+    </beans:beans>
+    
+deploy our custom processor and definition to xd installation:
 
-<beans:beans xmlns="http://www.springframework.org/schema/integration"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:beans="http://www.springframework.org/schema/beans"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/integration
-    http://www.springframework.org/schema/integration/spring-integration.xsd">
-  <channel id="input"/>
-
-  <transformer input-channel="input" output-channel="output">
-    <beans:bean class="SpringXDExampleProcessor" />
-  </transformer>
-
-  <channel id="output"/>
-</beans:beans>
-
-
-create folder ${xd.home}/modules/processor/springxdexampleprocessor
-create folder ${xd.home}/modules/processor/springxdexampleprocessor/config
-create folder ${xd.home}/modules/processor/springxdexampleprocessor/lib
-
-copy the springxdexampleprocessor.xml file to t${xd.home}/modules/processor/springxdexampleprocessor/config directory. 
-copy jar to ${xd.home}/modules/processor/springxdexampleprocessor/lib directory. 
+    create folder ${xd.home}/modules/processor/springxdexampleprocessor
+    create folder ${xd.home}/modules/processor/springxdexampleprocessor/config
+    create folder ${xd.home}/modules/processor/springxdexampleprocessor/lib
+    copy the springxdexampleprocessor.xml file to t${xd.home}/modules/processor/springxdexampleprocessor/config directory. 
+    copy jar to ${xd.home}/modules/processor/springxdexampleprocessor/lib directory. 
 
     xd:>stream create --name myStreamFromFile2 --definition "tail --name=/tmp/xdin | springxdexampleprocessor | file"
     xd:>stream deploy --name myStreamFromFile2
@@ -276,23 +298,29 @@ Details are here https://en.wikipedia.org/wiki/Bayesian_network
 The core element behing a neural network is a perceptron.
 A perceptron takes several binary inputs, x1,x2,… and produces a single binary output:
 
-TODO
 
-This perceptron can be layered.
+![perceptron](raw.githubusercontent.com/michaelgruczel/machine-learning-tutorial/master/images/perceptron.png "perceptron")
+
+The inputs have different importance/impact, means they can be formalized as weights
+
+![perceptron](https://raw.githubusercontent.com/michaelgruczel/machine-learning-tutorial/master/images/formular.png "formular")
+
+Instead of a threshold a sigmoid function can be used as well (activation function)
+This perceptrons can be layered as well.
 
 ![perceptron](https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/500px-Colored_neural_network.svg.png "perceptron")
 
-Instead of a threshold a sigmoid function can be used as well (activation function)
 Such a neural network can learn to predict/classify more or less everything in theory.			
-In order to so this, the perfect weights must be learned, there are several algorithms.
+In order to so this, the perfect weights must be learned. 
+There are several algorithms in place to simulate the learning.
 
 A commonly used cost is the mean-squared error, which tries to minimize the average squared error between the network's output, 
 f(x), and the target value y over all the example pairs. 
 
 The following is a stochastic gradient descent algorithm for training a three-layer network (only one hidden layer):
 
-  initialize network weights (often small random values)
-  do
+    initialize network weights (often small random values)
+    do
      forEach training example named ex
         prediction = neural-net-output(network, ex) 
         actual = teacher-output(ex)
@@ -300,8 +328,8 @@ The following is a stochastic gradient descent algorithm for training a three-la
         compute delta for all weights from hidden layer to output layer
         compute delta for all weights input layer to hidden layer
         update network weights // input layer not modified by error estimate
-  until all examples classified correctly or another stopping criterion satisfied
-  return the network
+      until all examples classified correctly or another stopping criterion satisfied
+    return the network
   
 You can find an example calculation with weka in WekaNeuralNetworkExampleApplication
 
@@ -325,6 +353,8 @@ Prepare dataformat and load file into hadoop hdfs:
 
 * execute MahoutDataPrepare (this will generate MahoutAssociationLearningExampleOutput.dat - containing the transaction data in a different format and MahoutAssociationLearningExampleMapping.csv - containing the mapping between the item name and the item id
 * $ hadoop fs -put MahoutAssociationLearningExampleOutput.dat MahoutAssociationLearningExampleOutput.dat
+
+(it can be that you have to use hdfs dfs instead of hadoop fs here)
 
 execute the algorithm:
 
