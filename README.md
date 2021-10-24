@@ -89,17 +89,16 @@ y = (b1 x1) + (b2 x2) + ... + a
 
 ![Linear Regression 2](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Polyreg_scheffe.svg/2560px-Polyreg_scheffe.svg.png)
 
-**2.2.2 Logistic Regression**
+**2.1.2 Logistic Regression**
 
 If we want to predict categorical outcomes instead of continous values (e.g. will the customer buy a product) logistic regression can be more effective.
 It works well with 50-100 data points, but not with large datasets.
 
-**2.2.3 k-nearest neighbors**
+**2.1.3 k-nearest neighbors**
 
-TODO
+k-NN classifies new data points based on their nearby data points, not recommended for large datasets or high number of features.
 
-
-**2.1.1 Decision Tree Learning**
+**2.1.4 Decision Tree Learning**
 
 Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
 The idea is to create a model that predicts a result based on several input variables.
@@ -126,17 +125,7 @@ So in general:
 
 There are  other algorithm and other metrics, check https://en.wikipedia.org/wiki/Decision_tree_learning for more information for more details
 
-One example is explained here http://technobium.com/decision-trees-explained-using-weka/
-You can find the code for it in this repository as well (WekaDecisionTreeApplication).
-It originally came from https://github.com/technobium/weka-decision-trees
-
-#### 2.2 Unsupervised learning
-
-Anaylzes inputs to generate an output.
-The datasets are unlabeled, it is not known which inputs lead to specific outputs, instead we search for hidden patterns and relationships we were not aware of.
-
-
-**2.2.1 Bayesian network**
+**2.1.5 Bayesian network**
 
 A Bayesian network is designed to predict an outcome on conditions.
 Means if you can say how likely something happen, given a certain condition,
@@ -149,14 +138,20 @@ Variables are nodes and edges are conditional probabilities
 The math for conditional probability is simple, i will skip the implementation here.
 Details are here https://en.wikipedia.org/wiki/Bayesian_network
 
-**2.2.2 association rules learning**
+
+#### 2.2 Unsupervised learning
+
+Anaylzes inputs to generate an output.
+The datasets are unlabeled, it is not known which inputs lead to specific outputs, instead we search for hidden patterns and relationships we were not aware of.
+
+**2.2.1 association rules learning**
 
 A method for discovering interesting relations between variables in large databases.
 Often used in e-commerce to predict an output on base of the occurrence of another event.
 
 details see https://en.wikipedia.org/wiki/Association_rule_learning
 
-**2.2.3 (k-means) clustering**
+**2.2.2 (k-means) clustering**
 
 The idea of clustering is to group items together. This is interesting for example for Market research or Crime analysis.
 
@@ -214,7 +209,6 @@ The following is a stochastic gradient descent algorithm for training a three-la
     return the network
 
 You can find an example calculation with weka in WekaNeuralNetworkExampleApplication
-
 
 ### Step 3 Select your tools
 
@@ -280,7 +274,6 @@ Spring XD an extensible system for real time data ingestion and processing.
 Spring XD application consists of inputs, processors and sinks which can be connected to streams.
 There are defaults inputs, processors and sinks, but you can write your own ones.
 
-
 ### Step 4 - Calculate the quality of results
 
 After you executed you run, it is time to measure how well the model performed.
@@ -314,6 +307,7 @@ We will try to modify the settings (called hyperparameters) of the algorithm.
 
 Here are some samples with installation guides and step by step execution plans:
 
+* [Decision Tree with Java and Weka originally takes from https://github.com/technobium/weka-decision-trees](java-examples/src/main/java/WekaDecisionTreeApplication.java)
 * [Hadoop by example](HadoopExamples.md)
 * [Mahout by association rules learning example ](MahoutExamples.md)
 * [SpringXD by example](SpringXDExamples.md)
