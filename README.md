@@ -1,259 +1,109 @@
-# machine-learning-tutorial
+# machine-learning / AI tutorial
 
-This is an incomplete list of machine learning algorithms.
-For each algorithm I try to list:
+This is an incomplete tutorial to get into machine learning and AI.
+I will explain the most basic algorithms and concepts without going into mathematical details.
 
-* general idea of the algorithm
-* manual calculated example and / or java example
-* use cases
+* Section 1 will got through the general process for solving a problem, explaining all concepts, algorithms on base of the different steps you will have to undertake in a machine Learning project.
+* Section 2 will give you examples using exactly the approach from Section 1 with different tools and languages.
 
-This is just my private learning list, don't expect correctness or completeness.
+Disclaimer: I will use my definition, this is not a scientific exploration.
 
-## code examples and toolings
+## Machine Learning and AI
 
-Let's first speak about some tools/frameworks often used for machine learning
+Artificial intelligence is the simulation of human intelligence processes by computer systems.
+Any behaviour, even very simple behaviour can be understood as AI.
 
-### weka
+Machine Learning is major subset of AI.
+It means that an algorithm can learn in a way, that an algorithm can improve performance based on data without direct programming. The output is defined by the input data, not by any predefined rules. I that way it differs from normal algorithm which have a static performance.
 
-weka is an open source machine learning library which includes a UI as well. 
-I use the library for some examples here
-See http://www.cs.waikato.ac.nz/ml/weka/ for full details
+Deep Learning is a special subset, maily based on neuronal networks which will be explained later.
 
-The dependency is:
+![MLOverview](MLOverview.drawio.png)
 
-    compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.6'
+### Step 1 - Setup the Data
 
-### hadoop
+For simplification I will focus on table-based (tabular) data. Each column is a variable, called feature, dimension or attribute. Each row is an observation. Each column is known as vector and multiple vectors are called matrices.
 
-hadoop is a group of tools, the most known parts are the hadoop file system (HDFS) and the map reduce framework.
-HDFS allows a smart distribution of of huge files to several servers (by splitting them) and map reduce allows the smart spitting of tasks to several host 
-and the re-integration/merge of the distributed results.
-Hadoop is designed for running on several hosts. There is one master node/name node and as much slaves as you want.
-In order to work properly key based ssh must be configured.
-For the test purposes of this tutorial a local installation is good enough. 
+#### 1.1 Data Scrubbing
 
-Install 
+The most data we get is dirty and lead to poor results if used in original state. Cleaning up the data and prepare for usage will drastically improve results.
 
-I will give an example for a local single node installation on mac (with homebrew):
+**1.1.1 Feature Selection**
 
-    brew install hadoop
+Identify the variable which are essential for your calculation. Delete not important or redundant columns.
 
-There are 2 ways to use hadoop locally:
+**1.1.2 Row compression**
 
-* you can run a single node cluster locally
-* you can just use the libs directly.
+Aggregate/Merge rows (e.g. several rows might be identical, they might only differ in different types of fish, which can be reduced to just one line with the entry fish if the difference does not matter.)
 
-If you want to use the second option, then skip the next lines and continue at "simple usage".
-The first option is far more complicated, but offers more support in terms of
-using the api and so on. In case you want to do it the hard way, you have to do this:
-    
-ensure ssh login locally works:
-    
-    // enable ssh login to localhost
-    ssh localhost
-    // needed steps can be:
-    // 1. Enable Remote Login in “System Preferences” -> “Sharing”. Check “Remote Login”
-    // 2. if needed, means ~/.ssh/id_rsa.pub is empty
-    ssh-keygen -t rsa
-    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-    
-configure it:
-    
-    /usr/local/Cellar/hadoop/2.7.2/bin/hdfs namenode -format
-    
-/usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/core-site.xml:
+**1.1.3 One-hot encoding**
 
-    <configuration>  
-      <property>
-        <name>hadoop.tmp.dir</name>
-        <value>/usr/local/Cellar/hadoop/hdfs/tmp</value>
-        <description>A base for other temporary directories.</description>
-      </property>
-      <property>
-        <name>fs.default.name</name>                                     
-        <value>hdfs://localhost:9000</value>                             
-      </property>
-    </configuration>    
+Replace text values by values, in a perfect case true/false (1/0) values. e.g. make 2 columns from "fast luxury car" (fast-> 0/1, luxury->0/1)
 
-/usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/mapred-site.xml:
+**1.1.4 Binning**
 
-    <configuration>
-      <property>
-        <name>mapred.job.tracker</name>
-        <value>localhost:9010</value>
-      </property>
-    </configuration>
+Put concrete values into buckets/bins, e.g. Prizes higher than 100k could be treated as expensive = true instead of the concrete value.
+
+**1.1.5 Normalization and Standardization**
+
+It can be usefull to rescale and normalize the variables.
+
+**1.1.6 Handling missing data (incomplete rows)**
+
+If rows are lacking data you have the choice:
+
+* Delete all uncomplete rows
+* replace missing values by the median value
+* replace the missing value by the most common variable value
+
+#### 1.2 Split Learn and Test Data
+
+In machine learning you will split input data in training and test data. The algorithm is trained by the training and the quality will be verified by the test data. Normally we use a ration of 70/30 or 80/20 (training/test). Before you split your data, it is important to randomize the row order.
+
+### Step 2: Select the right algorithm
+
+Machine Learning offers a huge amount of algorithms. I will show the most important algorithms here.
+
+#### 2.1 Supervised Learning
+
+Supervised Learning analyses combinations of known inputs and outputs to predict future outcomes based on new input data. That means you know that specific inputs (independent variables) lead to specific results (dependent variables).
+With Supervised Learning each item must have labeled inputs and outputs.
+
+**2.1.1 Linear Regression**
+
+Linear regression tries to predict the concrete outcoume of input variable, using a regression line (hyperplane). For example you might have the whether of the last 30 year, then you might be able to predict the whether of next year.
+The error is the distance between the hyperplane and the observed value.
+
+y = (b x) + a
+
+* y := dependent variable / outcome
+* x := independent variable / input
+* b := steepness
+* a := y-intercept
+
+![Linear Regression 1](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Linear_least_squares_example2.svg/300px-Linear_least_squares_example2.svg.png)
+
+Multiple Linear regression
+
+y = (b1 x1) + (b2 x2) + ... + a
+
+![Linear Regression 2](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Polyreg_scheffe.svg/2560px-Polyreg_scheffe.svg.png)
+
+**2.2.2 Logistic Regression**
+
+If we want to predict categorical outcomes instead of continous values (e.g. will the customer buy a product) logistic regression can be more effective.
+It works well with 50-100 data points, but not with large datasets.
+
+**2.2.3 k-nearest neighbors**
+
+TODO
 
 
-/usr/local/Cellar/hadoop/2.7.2/libexec/etc/hadoop/hdfs-site.xml:
+**2.1.1 Decision Tree Learning**
 
-    <configuration>
-      <property>
-        <name>dfs.replication</name>
-        <value>1</value>
-      </property>
-    </configuration>
-
-folder rights to upload files into hdfs
-
-    hdfs dfs -mkdir /user
-    hdfs dfs -mkdir /user/<username>
-  
-start
-  
-    /usr/local/Cellar/hadoop/2.7.2/sbin/start-dfs.sh
-    
-check http://localhost:50070/ to see it running   
-
-in order to stop it later use:
-
-    /usr/local/Cellar/hadoop/2.7.2/sbin/stop-dfs.sh    
-
-for a more advanced config see for example https://amodernstory.com/2014/09/23/installing-hadoop-on-mac-osx-yosemite/
-or https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html
-
-simple usage:
-
-the HDFS is then an own filesystem on your local system. 
-In order to see the files whoch are stored in the filesystem execute:
-
-    hadoop fs -ls
-    
-Let's store a file into the HDFS
-
-    // in case you run a single node cluster
-    hdfs dfs -put data/HadoopLoremIpsumExample HadoopLoremIpsumExampleInHDFS
-    
-or    
-    
-    // if you only use the libs
-    hadoop fs -put file ./data/HadoopLoremIpsumExample HadoopLoremIpsumExampleInHDFS   
-    
-The second important part of hadoop is map reduce. On base of this map reduce you can write java programs and embed them into hadoop.
-Let's do this with the official example.
-See HadoopExampleWordCount in java-examples to get an impression how map reduce works in java.
-Let's now package it as a jar.
-
-    cd java-examples
-    ./gradlew build
-    cp build/libs/java-examples.jar ./..
-    cd ..
-    mv java-examples.jar HadoopExampleWordCount.jar
-
-Let's use it in hadoop:
-
-    hadoop jar HadoopExampleWordCount.jar HadoopExampleWordCount HadoopLoremIpsumExampleInHDFS HadoopLoremIpsumExampleResultInHDFS
-
-Let's move the result from the hdfs filesystem to the local disk (and merge the different reduce tasks to one file)
-
-    hadoop fs -getmerge HadoopLoremIpsumExampleResultInHDFS ./data/HadoopLoremIpsumExampleResult
-
-### mahout
-
-mahout is a framework which should help to execute scalable performant machine learning applications. 
-It can use Hadoop, Spark or Flink. You can find an example how
-mahout can be used on top of hadoop in 'association rules learning'
-
-you can install mahout on mac by 
-
-    brew install mahout
-
-Unluckily some algorthims are missing in the newer versions because of lacking maintainers.
-You can download older versions, unpack them and start them locally.
-I use mahout 0.8 in the example (http://archive.apache.org/dist/mahout/0.8/)
-In order to use mahout parts in your java application, add this dependencies:
-
-    compile 'org.apache.mahout:mahout-core:0.7'
-    compile 'org.apache.mahout:mahout-math:0.7'
-
-### Yarn
-
-Apache Hadoop NextGen MapReduce (YARN) / MapReduce 2.0 (MRv2)
-
-The Hadoop system was based on the idea to
-distribute the data with the assumptions that moving the algorithm is always cheaper.
-Yarn is an improvement on top of hadoop MapReduce which adds a smart calculation (ResourceManager RM) 
-of calculation resources in order to distribute the calculation in a smart way. That massively improves performance.
-
-### Spring XD
-
-Spring XD an extensible system for real time data ingestion and processing.
-Spring XD application consists of inputs, processors and sinks which can be connected to streams.
-There are defaults inputs, processors and sinks, but you can write your own ones.
-
-Let's start it:
-
-* Download https://repo.spring.io/libs-release/org/springframework/xd/spring-xd/1.3.1.RELEASE/spring-xd-1.3.1.RELEASE-dist.zip 
-* Unzip the distribution
-* cd spring-xd-1.3.1.RELEASE
-* ./xd/bin/xd-singlenode
-* check http://localhost:9393/admin-ui
-
-Lets create an stream:
-
-    ./shell/bin/xd-shell
-    xd:>stream list
-    xd:>stream create --name myStreamFromFile --definition "tail --name=/tmp/xdin | file"
-    xd:>stream deploy --name myStreamFromFile
-    echo "the good and the ugly" >> /tmp/xdin
-    tail /tmp/xd/output/myStreamFromFile.out
-    xd:>stream undeploy -name myStreamFromFile
-    xd:>stream destroy -name myStreamFromFile
-
-stop everything, lets now create a input which reads from a file, 
-a custom processor which checks for the terms god and bad in the string in order to evaluate
-whether the sentences are nice ones (I know this example is stupid, but it shows the core principle)
-
-The example processor, you can find in the java-examples under SpringXDExampleProcessor,
-let's bundle it into a jar
-
-    cd java-examples
-    ./gradlew build
-    cp build/libs/java-examples.jar ./..
-    cd ..
-    mv java-examples.jar springxdexampleprocessor.jar
-
-We have to make the definition of it public for spring xd
-
-springxdexampleprocessor.xml:
-
-    <?xml version="1.0" encoding="UTF-8"?>
-    
-    <beans:beans xmlns="http://www.springframework.org/schema/integration"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:beans="http://www.springframework.org/schema/beans"
-      xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/integration
-        http://www.springframework.org/schema/integration/spring-integration.xsd">
-      <channel id="input"/>
-    
-      <transformer input-channel="input" output-channel="output">
-        <beans:bean class="SpringXDExampleProcessor" />
-      </transformer>
-    
-      <channel id="output"/>
-    </beans:beans>
-    
-deploy our custom processor and definition to xd installation:
-
-    create folder ${xd.home}/modules/processor/springxdexampleprocessor
-    create folder ${xd.home}/modules/processor/springxdexampleprocessor/config
-    create folder ${xd.home}/modules/processor/springxdexampleprocessor/lib
-    copy the springxdexampleprocessor.xml file to t${xd.home}/modules/processor/springxdexampleprocessor/config directory. 
-    copy jar to ${xd.home}/modules/processor/springxdexampleprocessor/lib directory. 
-
-    xd:>stream create --name myStreamFromFile2 --definition "tail --name=/tmp/xdin | springxdexampleprocessor | file"
-    xd:>stream deploy --name myStreamFromFile2
-    echo "the good and the ugly" >> /tmp/xdin
-    tail /tmp/xd/output/myStreamFromFile2.out
-
-You can image to chain several processors in this way to build a pipeline.
-
-## Decision Tree Learning
-
+Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
 The idea is to create a model that predicts a result based on several input variables.
-Nodes correspond input variables and edges lead to possible results of each variable. 
+Nodes correspond input variables and edges lead to possible results of each variable.
 A leaf represents a probability that all results of the path from root to the leave is true.
 Decision trees are a type of supervised learning algorithms which can be used to predict outcomes.
 
@@ -265,22 +115,28 @@ It is used recursively from the root to the leafs.
 ![example](https://upload.wikimedia.org/wikipedia/commons/f/f3/CART_tree_titanic_survivors.png "example")
 
     Entropy = - p(a)*log(p(a)) - p(b)*log(p(b))
-    Information gain =  IG(T,a) = H(T) - H(T|a) 
+    Information gain =  IG(T,a) = H(T) - H(T|a)
 
 So in general:
 
 * calculate all entropies for all variables and possible results.
 * Now calculate all entropies for all variables under the condition that a result is given.
 * Now you have the informations gains and you can select the highest one
-* do this recursively until you reach the leaves 
- 
+* do this recursively until you reach the leaves
+
 There are  other algorithm and other metrics, check https://en.wikipedia.org/wiki/Decision_tree_learning for more information for more details
 
 One example is explained here http://technobium.com/decision-trees-explained-using-weka/
 You can find the code for it in this repository as well (WekaDecisionTreeApplication).
 It originally came from https://github.com/technobium/weka-decision-trees
 
-## Bayesian network
+#### 2.2 Unsupervised learning
+
+Anaylzes inputs to generate an output.
+The datasets are unlabeled, it is not known which inputs lead to specific outputs, instead we search for hidden patterns and relationships we were not aware of.
+
+
+**2.2.1 Bayesian network**
 
 A Bayesian network is designed to predict an outcome on conditions.
 Means if you can say how likely something happen, given a certain condition,
@@ -293,11 +149,37 @@ Variables are nodes and edges are conditional probabilities
 The math for conditional probability is simple, i will skip the implementation here.
 Details are here https://en.wikipedia.org/wiki/Bayesian_network
 
-## neural network
+**2.2.2 association rules learning**
+
+A method for discovering interesting relations between variables in large databases.
+Often used in e-commerce to predict an output on base of the occurrence of another event.
+
+details see https://en.wikipedia.org/wiki/Association_rule_learning
+
+**2.2.3 (k-means) clustering**
+
+The idea of clustering is to group items together. This is interesting for example for Market research or Crime analysis.
+
+One important algorithm is K-Means Clustering:
+
+* Step 1: setup randomly some clusters/groups, a cluster is point which represents a centroid
+* Step 2: assign each object to the cluster/group that is nearest (has the closest centroid).
+* Step 3: When all objects have been assigned, recalculate the positions of the centroids.
+* Repeat Steps 2 and 3 until the centroids no longer move.
+
+#### 2.3 Reinforcement learning
+
+Reinforcement learning randomly tries a high number of input variables. It tries to gain knowledge by iterating and use insights from previous iterations.
+This algorithm is famous for games. In a chess game you know whether you won after 60 moves, but it is unclear which move had which impact.
+In Q-Learning we are working with agents, which can have a set of states (S) and a set Actions (A).
+The agent transitions randomly from state to state. Executing an action in a specific state provides the agent with a reward.
+
+#### 2.4 Deep Learning
+
+**2.4.1 neural network**
 
 The core element behing a neural network is a perceptron.
 A perceptron takes several binary inputs, x1,x2,… and produces a single binary output:
-
 
 ![perceptron](https://raw.githubusercontent.com/michaelgruczel/machine-learning-tutorial/master/images/perceptron.png "perceptron")
 
@@ -311,18 +193,18 @@ This perceptrons can be layered as well.
 ![perceptron](https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/500px-Colored_neural_network.svg.png "perceptron")
 
 Such a neural network can learn to predict/classify more or less everything in theory.			
-In order to so this, the perfect weights must be learned. 
+In order to so this, the perfect weights must be learned.
 There are several algorithms in place to simulate the learning.
 
-A commonly used cost is the mean-squared error, which tries to minimize the average squared error between the network's output, 
-f(x), and the target value y over all the example pairs. 
+A commonly used cost is the mean-squared error, which tries to minimize the average squared error between the network's output,
+f(x), and the target value y over all the example pairs.
 
 The following is a stochastic gradient descent algorithm for training a three-layer network (only one hidden layer):
 
     initialize network weights (often small random values)
     do
      forEach training example named ex
-        prediction = neural-net-output(network, ex) 
+        prediction = neural-net-output(network, ex)
         actual = teacher-output(ex)
         compute error (prediction - actual) at the output units
         compute delta for all weights from hidden layer to output layer
@@ -330,59 +212,108 @@ The following is a stochastic gradient descent algorithm for training a three-la
         update network weights // input layer not modified by error estimate
       until all examples classified correctly or another stopping criterion satisfied
     return the network
-  
+
 You can find an example calculation with weka in WekaNeuralNetworkExampleApplication
 
-## association rules learning
 
-A method for discovering interesting relations between variables in large databases.
-Often used in e-commerce to predict an output on base of the occurrence of another event.
+### Step 3 Select your tools
 
-details see https://en.wikipedia.org/wiki/Association_rule_learning
+There are a lot of tools for differen programming languages available. I will try to list the most important tools.
 
-mahout is a tool which is often used. A good example can be found under https://chimpler.wordpress.com/2013/05/02/finding-association-rules-with-mahout-frequent-pattern-mining/
-Here is a copy of that example included.
-MahoutAssociationLearningExample.csv contains different baskets, let's execute it.
+**NumPy (python)**
 
-Install software:
+open source lib with supports loading and work with large datasets
 
-* install hadoop
-* use mahout 0.8, because the fpg algorithm is removed in later versions of mahout
+**SciKit-learn (python)**
 
-Prepare dataformat and load file into hadoop hdfs:
+Python lib which contains a lot of ML agorithms.
+Great for most machine learning, not the best choice for neuronal networks.
 
-* execute MahoutDataPrepare (this will generate MahoutAssociationLearningExampleOutput.dat - containing the transaction data in a different format and MahoutAssociationLearningExampleMapping.csv - containing the mapping between the item name and the item id
-* $ hadoop fs -put MahoutAssociationLearningExampleOutput.dat MahoutAssociationLearningExampleOutput.dat
+**Pandas (python)**
 
-(it can be that you have to use hdfs dfs instead of hadoop fs here)
+Python Lib to works with data as virtual spreadsheet.
 
-execute the algorithm:
+**R and R Studio**
 
-* $ mahout fpg -i MahoutAssociationLearningExampleOutput.dat -o patterns -k 10 -method mapreduce -s 2
-* if needed adapt parameters -k 10 means that for each item i, the top 10 association rule, -s 2 means only consider the sets of items which appears in more than 2 transactions
-* look at raw results: $ mahout seqdumper -i patterns/frequentpatterns/part-r-00000   ([141, 0],42) means that the pair item 141 and item 0 appears in 42 transactions and so on
+Open Source programming language (and IDE) optimized for mathematical operations. Often used only for data mining.
 
-Let's take a look int the results
+**Tensorflow**
 
-* $ hadoop fs -getmerge patterns/frequentpatterns frequentpatterns.seq
-* $ hadoop fs -get patterns/fList fList.seq
-* execute MahoutResultEvaluation
+Machine Learning from Google which makes it possible to move the compute work to the google cloud. A great choice for neuronal networks because of the advanced algorithms and compute options in this area.
 
-You will find something like:
+**Kera (python)**
 
-    [Sweet Relish] => Hot Dogs: supp=0.047, conf=0.508, lift=5.959, conviction=1.859
-    [Eggs] => Hot Dogs: supp=0.043, conf=0.460, lift=3.751, conviction=1.626
-    ...
-    
-which means people who bought Sweet Relish often bought Hot Dogs
+Open Source deep Learning library, which is simple to use for most cases and it can run on top of tensor flow.
 
-## clustering
+**Cafe**
 
-The idea of clustering is to group items together. This is interesting for example for Market research or Crime analysis.
+open source lib for deep learning, great for image classification and image segmentation.
 
-One important algorithm is K-Means Clustering:
+**Weka (java)**
 
-* Step 1: setup randomly some clusters/groups, a cluster is point which represents a centroid
-* Step 2: assign each object to the cluster/group that is nearest (has the closest centroid).
-* Step 3: When all objects have been assigned, recalculate the positions of the centroids.
-* Repeat Steps 2 and 3 until the centroids no longer move. 
+weka is an open source machine learning library which includes a UI as well.
+It is available as java library.
+For some more details take a look under http://www.cs.waikato.ac.nz/ml/weka/.
+
+**Hadoop (java, python)**
+
+hadoop is a group of tools, the most known are the hadoop file system (HDFS) and the map reduce framework. HDFS allows a smart distribution of of huge files to several servers (by splitting them) and map reduce allows the smart spitting of tasks to several host
+and the re-integration/merge of the distributed results. This way algorithms can be distributed over a bunch of servers.
+
+**mahout (java, python)**
+
+mahout is a framework which should help to execute scalable performant machine learning applications.
+It can use Hadoop, Spark or Flink.
+
+**YARN (java, python)**
+
+Apache Hadoop NextGen MapReduce (YARN) / MapReduce 2.0 (MRv2)
+
+The Hadoop system was based on the idea to
+distribute the data with the assumptions that moving the algorithm is always cheaper.
+Yarn is an improvement on top of hadoop MapReduce which adds a smart calculation (ResourceManager RM)
+of calculation resources in order to distribute the calculation in a smart way. That massively improves performance.
+
+**Spring XD (java)**
+
+Spring XD an extensible system for real time data ingestion and processing.
+Spring XD application consists of inputs, processors and sinks which can be connected to streams.
+There are defaults inputs, processors and sinks, but you can write your own ones.
+
+
+### Step 4 - Calculate the quality of results
+
+After you executed you run, it is time to measure how well the model performed.
+
+**4.1 Calculate error**
+
+There are different metrics:
+
+* Area under Curve (AUC)
+* Receiver Operating Characteristic (ROC)
+* confusion matrix
+* root mean square error (RMSE)
+* absolute error (MAE), which measures the average of the errors
+
+**4.2 Cross and k-fold validation**
+
+In order to verify that the training set was not luckily choosen, it can make sense to testing all combinations to divide the original set into training and test set.
+If that costs too much computing time and power, several randomly choosen splits (k-fold validation) could be used.
+
+**4.3 Check relationships between variables**
+
+Using a matrix of relationships/correlation scores between variable in order to remove redundant variables.
+
+### Step 5 - Tune and repeat
+
+After having results and a data how well the algorithm performed, it is time to tweak and repeat the step.
+
+We will try to modify the settings (called hyperparameters) of the algorithm.
+
+## Examples for coders
+
+Here are some samples with installation guides and step by step execution plans:
+
+* [Hadoop by example](HadoopExamples.md)
+* [Mahout by association rules learning example ](MahoutExamples.md)
+* [SpringXD by example](SpringXDExamples.md)
