@@ -1,24 +1,26 @@
 # machine-learning / AI tutorial
 
 This is an incomplete tutorial to get into machine learning and AI.
-I will explain the most basic algorithms and concepts without going into mathematical details.
+I will explain the most basic algorithms and concepts without going into mathematical details. I am not a machine learning expert or data scientist, i am an engineer and I use this in order to learn more about mahine learning.
 
-* Section 1 will got through the general process for solving a problem, explaining all concepts, algorithms on base of the different steps you will have to undertake in a machine Learning project.
+* Section 1 will got through the general process for solving a problem using ML of AI techniques. Wi will give a short intro into the concepts and algorithms. This section is organized in steps. If you undertake a project, then you will probably run exactly through these steps.
 * Section 2 will give you examples using exactly the approach from Section 1 with different tools and languages.
 
 Disclaimer: I will use my definition, this is not a scientific exploration.
 
 ## Machine Learning and AI
 
-Artificial intelligence is the simulation of human intelligence processes by computer systems.
+Artificial intelligence is the simulation of human intelligence processed by computer systems.
 Any behaviour, even very simple behaviour can be understood as AI.
 
-Machine Learning is major subset of AI.
-It means that an algorithm can learn in a way, that an algorithm can improve performance based on data without direct programming. The output is defined by the input data, not by any predefined rules. I that way it differs from normal algorithm which have a static performance.
+Machine Learning can be understood as subset of AI.
+Software developed with classical programming is not differs from machine learning.   
+In classical programming you define and codify the rules which are used to convert input data into output data. The performance is static in that way. Logic you do not implement, will not be applied.  If you use machine learning then you don't not know the rules. Instead you define the input data which result in specific output data. The model is then trained to learn the rules themselves.
+It means that an algorithm can learn in a way, that an algorithm can improve performance based on data without direct programming. The output is defined by the input data, not by any predefined rules. I that way it differs from normal algorithm which have a static performance, because it gets better with more data.
 
-Deep Learning is a special subset, maily based on neuronal networks which will be explained later.
+Deep Learning is a special subset, mainly based on neuronal networks which will be explained later.
 
-![MLOverview](MLOverview.drawio.png)
+![MLOverview](images/MLOverview.drawio.png)
 
 ### Step 1 - Setup the Data
 
@@ -30,11 +32,11 @@ The most data we get is dirty and lead to poor results if used in original state
 
 **1.1.1 Feature Selection**
 
-Identify the variable which are essential for your calculation. Delete not important or redundant columns.
+Identify the variables which are essential for your calculation. Delete not important or redundant columns.
 
 **1.1.2 Row compression**
 
-Aggregate/Merge rows (e.g. several rows might be identical, they might only differ in different types of fish, which can be reduced to just one line with the entry fish if the difference does not matter.)
+Aggregate/Merge rows (e.g. several rows might be identical, they might only differ in different types of subtypes, which can be reduced to just one line if the difference between the subcategories does not matter.)
 
 **1.1.3 One-hot encoding**
 
@@ -71,7 +73,7 @@ With Supervised Learning each item must have labeled inputs and outputs.
 
 **2.1.1 Linear Regression**
 
-Linear regression tries to predict the concrete outcoume of input variable, using a regression line (hyperplane). For example you might have the whether of the last 30 year, then you might be able to predict the whether of next year.
+Linear regression tries to predict the concrete outcoume of input variable, using a regression line (hyperplane). For example you might have the wheather data of the last 30 years, then you might be able to predict the whether of next year.
 The error is the distance between the hyperplane and the observed value.
 
 y = (b x) + a
@@ -81,13 +83,13 @@ y = (b x) + a
 * b := steepness
 * a := y-intercept
 
-![Linear Regression 1](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Linear_least_squares_example2.svg/300px-Linear_least_squares_example2.svg.png)
+![Linear Regression 1](images/linearRegression.drawio.png)
 
 Multiple Linear regression
 
 y = (b1 x1) + (b2 x2) + ... + a
 
-![Linear Regression 2](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Polyreg_scheffe.svg/2560px-Polyreg_scheffe.svg.png)
+![Linear Regression 2](images/multipleLinearRegression.drawio.png)
 
 **2.1.2 Logistic Regression**
 
@@ -98,7 +100,7 @@ It works well with 50-100 data points, but not with large datasets.
 
 k-NN classifies new data points based on their nearby data points, not recommended for large datasets or high number of features.
 
-**2.1.4 Decision Tree Learning**
+**2.1.4 Decision Tree Learning and random forest**
 
 Decision Trees are a non-parametric supervised learning method used for both classification and regression tasks.
 The idea is to create a model that predicts a result based on several input variables.
@@ -123,7 +125,11 @@ So in general:
 * Now you have the informations gains and you can select the highest one
 * do this recursively until you reach the leaves
 
-There are  other algorithm and other metrics, check https://en.wikipedia.org/wiki/Decision_tree_learning for more information for more details
+Calculating all possible combinations (means recalculate all entropies under all possible combinations of a given decision) can be very time consuming.
+So often bagging is used, which means that to grow several decision trees using a randomized selection of input data.
+Most often **random forest** is used as algorithm, which grows several decision trees, but limits the choice of variables in each split.
+
+There are other algorithms and other metrics, check https://en.wikipedia.org/wiki/Decision_tree_learning for more information for more details
 
 **2.1.5 Bayesian network**
 
@@ -135,9 +141,16 @@ Variables are nodes and edges are conditional probabilities
 
 ![example](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/SimpleBayesNet.svg/800px-SimpleBayesNet.svg.png "example")
 
-The math for conditional probability is simple, i will skip the implementation here.
-Details are here https://en.wikipedia.org/wiki/Bayesian_network
+The math for conditional probability is simple, I will skip the implementation here.
+Details can be found under https://en.wikipedia.org/wiki/Bayesian_network
 
+**2.1.6 Support Vector machines**
+
+SVM are used as a classification technique for predicting categorical outcomes.
+It is comparable with logistic regression.
+Instead of just seperating the categories by an hyperplane, it tries to find the maximum distance of the plane to the points.
+
+![svm](images/svm.drawio.png)
 
 #### 2.2 Unsupervised learning
 
@@ -153,14 +166,18 @@ details see https://en.wikipedia.org/wiki/Association_rule_learning
 
 **2.2.2 (k-means) clustering**
 
-The idea of clustering is to group items together. This is interesting for example for Market research or Crime analysis.
+The idea of clustering is to group items together.
+So we try to find data point which share similar attributes.
+This is interesting for example for Market research.
 
-One important algorithm is K-Means Clustering:
+The most important algorithm is K-Means Clustering:
 
-* Step 1: setup randomly some clusters/groups, a cluster is point which represents a centroid
-* Step 2: assign each object to the cluster/group that is nearest (has the closest centroid).
+* Step 1: setup randomly some clusters centers (centroids).
+* Step 2: assign each object to the cluster that is nearest (has the closest centroid) using for example the euclidean distance.
 * Step 3: When all objects have been assigned, recalculate the positions of the centroids.
 * Repeat Steps 2 and 3 until the centroids no longer move.
+
+![kmeans](https://upload.wikimedia.org/wikipedia/commons/e/ea/K-means_convergence.gif)
 
 #### 2.3 Reinforcement learning
 
@@ -173,7 +190,11 @@ The agent transitions randomly from state to state. Executing an action in a spe
 
 **2.4.1 neural network**
 
-The core element behing a neural network is a perceptron.
+We could say that neuronal networks is just a supervised learnings algorithm but for me it is a seperated category because in contrast to the other algortithm it is a black box.
+I can train a network but I cannot explain clearly why it reacts like it does. 2 different networks could have complete different weights and settings and come to nearly the same result.
+This is perfect for problems which are easy to solve for human beings but difficult for computers. It works great for pattern detection. Even if that is maybe the most exciting approach, it is expensive/slow in comparison to simpler algorithms and for a lot of cases not the best way to go. For simple detections a decisions tree might be good enough already.
+
+The core element behind a neural network is a perceptron.
 A perceptron takes several binary inputs, x1,x2,… and produces a single binary output:
 
 ![perceptron](https://raw.githubusercontent.com/michaelgruczel/machine-learning-tutorial/master/images/perceptron.png "perceptron")
@@ -208,20 +229,25 @@ The following is a stochastic gradient descent algorithm for training a three-la
       until all examples classified correctly or another stopping criterion satisfied
     return the network
 
-You can find an example calculation with weka in WekaNeuralNetworkExampleApplication
+In order to solve complex problems several layers are often used, means the results of one layer is the input for the next layer. Stacking several layers (e.g. 150 for identifying vehicles) makes it deep.
 
-### Step 3 Select your tools
+### Step 3 Select your tools and implement the algorithm
 
-There are a lot of tools for differen programming languages available. I will try to list the most important tools.
+There are a lot of tools for different programming languages available. I will try to list the most important tools here.
 
 **NumPy (python)**
 
-open source lib with supports loading and work with large datasets
+Open source lib with supports loading and work with large datasets.
 
 **SciKit-learn (python)**
 
 Python lib which contains a lot of ML agorithms.
 Great for most machine learning, not the best choice for neuronal networks.
+
+**jupyter**
+
+JupyterLab (https://jupyter.org) is a web-based interactive development environment for Jupyter notebooks. That means you start a webservice and then you can code in a browser.
+The programms are stored as notebooks. Python and all the libs including tensorflow are supported and the algorithm can be stored in a way that in can be viewed in a browser and stored in version control.
 
 **Pandas (python)**
 
@@ -265,7 +291,7 @@ Apache Hadoop NextGen MapReduce (YARN) / MapReduce 2.0 (MRv2)
 
 The Hadoop system was based on the idea to
 distribute the data with the assumptions that moving the algorithm is always cheaper.
-Yarn is an improvement on top of hadoop MapReduce which adds a smart calculation (ResourceManager RM)
+Yarn is an improvement on top of Hadoop MapReduce which adds a smart calculation (ResourceManager RM)
 of calculation resources in order to distribute the calculation in a smart way. That massively improves performance.
 
 **Spring XD (java)**
@@ -273,6 +299,15 @@ of calculation resources in order to distribute the calculation in a smart way. 
 Spring XD an extensible system for real time data ingestion and processing.
 Spring XD application consists of inputs, processors and sinks which can be connected to streams.
 There are defaults inputs, processors and sinks, but you can write your own ones.
+
+**getting started package**
+
+If you want to start local, then I recommend to start with python.
+The most ML libraries are available in python.
+For most users it makes sense to start with python and either jupyter notebooks or pyCharm.
+From there we can use python to implement ML algorithms with SciKit (for non-deep learning tasks) or Tensorflow (for deep learning). Pandas and numPy makes it easier to handle data. Take a look into [install the tools guide](installTools.md) to get started.
+
+If you want to implement BI applications which are running in an automated fashion as part of you ecosystem in a local datacenter, then you might take a look into Hadoop or other platforms.  
 
 ### Step 4 - Calculate the quality of results
 
@@ -287,6 +322,7 @@ There are different metrics:
 * confusion matrix
 * root mean square error (RMSE)
 * absolute error (MAE), which measures the average of the errors
+* ...
 
 **4.2 Cross and k-fold validation**
 
@@ -301,13 +337,50 @@ Using a matrix of relationships/correlation scores between variable in order to 
 
 After having results and a data how well the algorithm performed, it is time to tweak and repeat the step.
 
-We will try to modify the settings (called hyperparameters) of the algorithm.
+Try to modify the settings (called hyperparameters) of the algorithm.
+
+**Unser and Overfitting**
+
+As Bias we understand the gap between the value predicted and the actual value.
+It is the prediction error.
+As Variance we understand how scattered or predicted values are.
+In Ideal World you would get a situation where the variance and the bias is low.
+In Real world you often have to find a trade off between both.
+Underfitting you normally can detect by low variance, but high bias (prediction error). Overfitting can be detected when the algorithm is much better at the test data then it is with the verification data and by high variance with low bias.
+
+**Ensemble learning**
+
+Often you get the best results when you combine models/algorithms.
+You can for example use the result of one subcalculation as input for another algorithm (stacking).
+
+An important approach is Gradient boosting.
+Gradient boosting is typically used with decision trees.
+It does not use different algorithms, but it build several models and tweaks the model in the direction of minimizing the error.
 
 ## Examples for coders
 
 Here are some samples with installation guides and step by step execution plans:
 
+* [install the tools](installTools.md)
+* [Getting started with python and jupyter and SciKit](example-jupyter-1/example-jupyter-1.md)
+
+
+TODO update:
+
 * [Decision Tree with Java and Weka originally takes from https://github.com/technobium/weka-decision-trees](java-examples/src/main/java/WekaDecisionTreeApplication.java)
 * [Hadoop by example](HadoopExamples.md)
 * [Mahout by association rules learning example ](MahoutExamples.md)
 * [SpringXD by example](SpringXDExamples.md)
+* [Neuronal networks in java with Weka](./java-examples/src/main/java/WekaNeuralNetworkExampleApplication.java)
+
+## learning
+
+Here are some useful links:
+
+* machine learning with scikit - https://scikit-learn.org/stable/
+* open source machine learning - tensorflow - https://www.tensorflow.org
+* UCI machine learning (free datasets) - https://archive.ics.uci.edu/ml/index.php
+* kaggle challenges - https://www.kaggle.com
+* datasets aws - https://registry.opendata.aws
+* open portal lists - http://dataportals.org/search
+* opendata list - https://opendatamonitor.eu
