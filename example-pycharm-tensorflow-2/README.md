@@ -206,7 +206,7 @@ The test set size : 10000
 
 ![example2_1](./../images/example2_1.png)
 
-![example2_2](./../images/example2_1.png)
+![example2_2](./../images/example2_2.png)
 
 ```
 Train on 60000 samples
