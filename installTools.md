@@ -29,3 +29,28 @@ you can use jupyter in that virtual machine learning env later on by entering th
 source mlenv/bin/activate
 jupyter notebook
 ```
+
+## python with tensorflow installed via PyCharm
+
+jupiter is awe based tool, whereas pyCharm is an IDE which enables you to install virtuall machine learning environments. There is a free community edition.
+
+https://www.jetbrains.com/pycharm/download/
+
+I will show an example on how to setup a new project with python 3.7 and tensorflow.
+User the same approach for other libs.
+
+First we will set up a new project. As virtual machine learning env we will use conda this time.
+
+![new project 1](images/pyc1.png)
+
+![new project 2](images/pyc2.png)
+
+now let's add tensorflow, go to Interpreter Settings and install the tensoflow package
+
+![new project 3](images/pyc3.png)
+
+![new project 4](images/pyc4.png)
+
+![new project 5](images/pyc5.png)
+
+Install other libs like numpy and matplot as well.

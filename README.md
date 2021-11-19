@@ -259,9 +259,16 @@ Open Source programming language (and IDE) optimized for mathematical operations
 
 **Tensorflow**
 
-Machine Learning from Google which makes it possible to move the compute work to the google cloud. A great choice for neuronal networks because of the advanced algorithms and compute options in this area.
+Machine Learning from Google which makes it possible to execute ML locally and to move the compute work to the google cloud.
+Tensorflow is a great choice for neuronal networks because of the advanced algorithms and compute options in this area.
 
-**Kera (python)**
+Tensorflow consists of:
+* Tensorflow Hub - a repository of models
+* Tensorflow Lite - for calculating output on mobile phones or Raspberry Pi,
+* a distribution logic to move the calculation to the cloud
+* some predefined Test Datasets
+
+**Keras (python)**
 
 Open Source deep Learning library, which is simple to use for most cases and it can run on top of tensor flow.
 
@@ -305,9 +312,21 @@ There are defaults inputs, processors and sinks, but you can write your own ones
 If you want to start local, then I recommend to start with python.
 The most ML libraries are available in python.
 For most users it makes sense to start with python and either jupyter notebooks or pyCharm.
-From there we can use python to implement ML algorithms with SciKit (for non-deep learning tasks) or Tensorflow (for deep learning). Pandas and numPy makes it easier to handle data. Take a look into [install the tools guide](installTools.md) to get started.
+From there we can use python to implement ML algorithms with SciKit (for non-deep learning tasks) or Tensorflow (for deep learning).
+Pandas and numPy makes it easier to handle data.
+I recommend to start with:
+* [Getting started with python and jupyter and SciKit - House Pricing Prediction](example-jupyter-1/example-jupyter-1.md)
+* [Getting started with pyCharm and tensorflow - Predict Clothing](example-pycharm-tensorflow-2/README.md)
 
-If you want to implement BI applications which are running in an automated fashion as part of you ecosystem in a local datacenter, then you might take a look into Hadoop or other platforms.  
+Take a look into [install the tools guide](installTools.md) to if you want to know how to install the needed tools.
+This 2 examples will show you the most often used libs in python: jupyter, pyCharm, SciKit, Keras, numPy, Pandas
+and different ways of setting up ml environments (browser vs IDE).
+That will give you a feeling how you would like to work.
+
+If you want to implement BI applications which are running in an automated fashion as part of you ecosystem in a local datacenter,
+then you might later take a look into Hadoop or other platforms.  
+
+If you want to integrate some ml in existing applications, then libs like weka or others might be relevant.
 
 ### Step 4 - Calculate the quality of results
 
@@ -362,8 +381,8 @@ It does not use different algorithms, but it build several models and tweaks the
 Here are some samples with installation guides and step by step execution plans:
 
 * [install the tools](installTools.md)
-* [Getting started with python and jupyter and SciKit](example-jupyter-1/example-jupyter-1.md)
-
+* [Getting started with python and jupyter and SciKit - House Pricing Prediction](example-jupyter-1/example-jupyter-1.md)
+* [Getting started with pyCharm and tensorflow - Predict Clothing](example-pycharm-tensorflow-2/README.md)
 
 TODO update:
 
@@ -373,14 +392,20 @@ TODO update:
 * [SpringXD by example](SpringXDExamples.md)
 * [Neuronal networks in java with Weka](./java-examples/src/main/java/WekaNeuralNetworkExampleApplication.java)
 
-## learning
+## learning and datasets
 
-Here are some useful links:
+Here are some useful learning links:
 
 * machine learning with scikit - https://scikit-learn.org/stable/
 * open source machine learning - tensorflow - https://www.tensorflow.org
 * UCI machine learning (free datasets) - https://archive.ics.uci.edu/ml/index.php
 * kaggle challenges - https://www.kaggle.com
+
+here are some list of research datasets:
+
+* kaggle offers datasets with challenges https://www.kaggle.com
 * datasets aws - https://registry.opendata.aws
 * open portal lists - http://dataportals.org/search
 * opendata list - https://opendatamonitor.eu
+* MNIST dataset https://en.wikipedia.org/wiki/MNIST_database
+* Wikipedia list of research datasets https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research
