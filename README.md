@@ -1,12 +1,15 @@
 # machine-learning / AI tutorial
 
 This is an incomplete tutorial to get into machine learning and AI.
-I will explain the most basic algorithms and concepts without going into mathematical details. I am not a machine learning expert or data scientist, i am an engineer and I use this in order to learn more about mahine learning.
+I will explain the most basic algorithms and concepts without going into mathematical details.
+I am not a machine learning expert or data scientist,
+I am an engineer and I use this in order to learn more about machine learning.
 
-* Section 1 will got through the general process for solving a problem using ML of AI techniques. Wi will give a short intro into the concepts and algorithms. This section is organized in steps. If you undertake a project, then you will probably run exactly through these steps.
+* Section 1 will got through the general process for solving a problem using ML and AI techniques.
+I will give a short intro into the concepts and algorithms. This section is organized in steps. If you undertake a project, then you will probably run exactly through these steps.
 * Section 2 will give you examples using exactly the approach from Section 1 with different tools and languages.
 
-Disclaimer: I will use my definition, this is not a scientific exploration.
+Disclaimer: I will use my definitions, this is not a scientific exploration.
 
 ## Machine Learning and AI
 
@@ -14,9 +17,9 @@ Artificial intelligence is the simulation of human intelligence processed by com
 Any behaviour, even very simple behaviour can be understood as AI.
 
 Machine Learning can be understood as subset of AI.
-Software developed with classical programming is not differs from machine learning.   
+Software developed with classical programming differs from machine learning.   
 In classical programming you define and codify the rules which are used to convert input data into output data. The performance is static in that way. Logic you do not implement, will not be applied.  If you use machine learning then you don't not know the rules. Instead you define the input data which result in specific output data. The model is then trained to learn the rules themselves.
-It means that an algorithm can learn in a way, that an algorithm can improve performance based on data without direct programming. The output is defined by the input data, not by any predefined rules. I that way it differs from normal algorithm which have a static performance, because it gets better with more data.
+It means that an algorithm can learn in a way, that an algorithm can improve performance based on data without direct programming. The output is defined by the input data, not by any predefined rules. I that way it differs from normal algorithms which have a static performance, because it gets better with more data.
 
 Deep Learning is a special subset, mainly based on neuronal networks which will be explained later.
 
@@ -231,6 +234,41 @@ The following is a stochastic gradient descent algorithm for training a three-la
 
 In order to solve complex problems several layers are often used, means the results of one layer is the input for the next layer. Stacking several layers (e.g. 150 for identifying vehicles) makes it deep.
 
+**CNN - convolutional neural networks**
+
+Sometime a classical neural network is not enough.
+So we implemented a neural network which can detect clothes.
+Often data is not perfectly prepared, so matching exact datasets might not be good enough.
+
+In a real world scenario images might be not in perfect zoom and rotation.
+So instead of mapping pixels we might want to identify patterns/features.
+Therefore CNNs are a good fit.
+
+Convolution is a nothing else then a filter of weights that are used to multiply a pixel with its neighbors. So we multiple the values of the pixel including the surrounding with the weight and sum that up.
+
+![CNN](images/cnn.drawio.png)
+
+This is improved with pooling.
+That means we use the take the maximum of a pixel block as value.
+This way we eliminate pixel with lower importance.
+
+This is used in convolutional neural networks (CNN).
+
+**RNN - Recurrent neural network**
+
+Often data is not context free. In reality data often depends on the data before.
+Understanding a video for example works different to to understand a single image.
+For such cases a Recurrent neural network is a good fit.
+An output not just depends on the input, instead the values before influence the output in a weighted fashion.
+Recurrent networks can have additional stored states, and the storage can be under direct control by the neural network.
+The storage can also be replaced by another network or graph if that incorporates time delays or has feedback loops.
+Such controlled states are referred to as gated state or gated memory, and are part of long short-term memory networks (LSTMs) and gated recurrent units.
+Such LSTMs can be stacked as well.
+
+**Dropout Regularization**
+One of the weapons against overfitting in neural networks is Dropout Regularization. During training you remove a random number of neurons.
+This makes the algorithm often more resilient.
+
 ### Step 3 Select your tools and implement the algorithm
 
 There are a lot of tools for different programming languages available. I will try to list the most important tools here.
@@ -263,9 +301,10 @@ Machine Learning from Google which makes it possible to execute ML locally and t
 Tensorflow is a great choice for neuronal networks because of the advanced algorithms and compute options in this area.
 
 Tensorflow consists of:
-* Tensorflow Hub - a repository of models
-* Tensorflow Lite - for calculating output on mobile phones or Raspberry Pi,
-* a distribution logic to move the calculation to the cloud
+
+* Tensorflow Hub - a repository of models for doing all the logic ML
+* Tensorflow Lite - for calculating output on mobile phones or Raspberry Pi,..
+* a distribution logic to move the calculation to the cloud or on devices
 * some predefined Test Datasets
 
 **Keras (python)**
@@ -382,7 +421,9 @@ Here are some samples with installation guides and step by step execution plans:
 
 * [install the tools](installTools.md)
 * [Getting started with python and jupyter and SciKit - House Pricing Prediction](example-jupyter-1/example-jupyter-1.md)
-* [Getting started with pyCharm and tensorflow - Predict Clothing](example-pycharm-tensorflow-2/README.md)
+* [Getting started with pyCharm and tensorflow - Predict Clothing with neural network](example-pycharm-tensorflow-2/README.md)
+* [Load data into tensorflow](load-data-into-tensorflow.md)
+* [Calculate a model with tensorflow and use it with tensorflow lite on android and with TF serving in docker](example-pycharm-tensorflow-3/tensorflow-on-android.md))
 
 TODO update:
 

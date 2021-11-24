@@ -124,3 +124,5 @@ print("%.2f" % samplePrediction)
 11. Tweak and tune
 
 I will skip this here, but maybe it's worth investing some time in tuning parameters and compare results.
+
+The full code is available [here](example1.ipynb).
